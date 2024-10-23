@@ -60,6 +60,7 @@ jobs:
         uses: snyk/actions/docker@master
         with:
           image: "${{ env.IMAGE_NAME }}"
+          command: "container test"
           args: |
             --debug
             --exclude-base-image-vulns
