@@ -60,13 +60,12 @@ jobs:
         uses: snyk/actions/docker@master
         with:
           image: "${{ env.IMAGE_NAME }}"
-          command: "container test"
           args: |
-            --debug
-            --exclude-base-image-vulns
-            --file="./python-package-version/Dockerfile"
-            --format="legacy"
-            --org="${SNYK_ORG}"
-            --platform="linux/amd64"
-            --policy-path="./python-package-version/.snyk"
+            --debug \
+            --exclude-base-image-vulns \
+            --file="./python-package-version/Dockerfile" \
+            --format="legacy" \
+            --org="${SNYK_ORG}" \
+            --platform="linux/amd64" \
+            --policy-path="./python-package-version/.snyk" \
             --severity-threshold="high"
