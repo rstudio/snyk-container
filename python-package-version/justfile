@@ -1,0 +1,26 @@
+CWD := justfile_directory()
+
+IMAGE_NAME := env("IMAGE_NAME", "rstudio/rstudio-workbench-snyk:latest")
+
+SNYK_ORG := env("SNYK_ORG")
+SNYK_TOKEN := env("SNYK_TOKEN")
+
+build:
+  docker buildx build \
+    -f {{CWD}}/Dockerfile \
+    -t "{{IMAGE_NAME}}" \
+    --load \
+    {{CWD}}
+
+snyk-test:
+  snyk container test \
+    --debug \
+    --exclude-base-image-vulns \
+    --file="{{WORKING_DIR}}/Dockerfile" \
+    --format="legacy" \
+    --org="${SNYK_ORG}" \
+    --platform="linux/amd64" \
+    --policy-path="{{CWD}}" \
+    --severity-threshold="high" \
+    {{IMAGE_NAME}}
+
